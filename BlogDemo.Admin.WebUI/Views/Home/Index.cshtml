@@ -1,0 +1,65 @@
+﻿@model BlogDemo.Admin.WebUI.Models.BlogViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+    <div class="container">
+        <div class="row">
+            <table id="dataTable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>InserDate</th>
+                        <th>Operation</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Blogs != null)
+                    {
+                        foreach (var item in Model.Blogs)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.Content</td>
+                                <td>@item.InsDate</td>
+                                <td><a href="/Home/BlogDelete/@item.Id">Delete</a></td>
+                            </tr>
+
+                        }
+                    }
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr></tr>
+                </tfoot>
+
+            </table>
+        </div>
+        <br /><br /><hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+
+                <label>Id</label><br />
+                @Html.TextBoxFor(b => b.Blog.Id, new { @type = "number", @class = "form-control" })
+                <label>Title</label><br />
+                @Html.TextBoxFor(b => b.Blog.Title, new { @class = "form-control", @placeholder = "Title", @required = "required" })
+                <label>Content</label><br />
+
+
+            </div>
+
+            <div class="row">
+                @Html.TextAreaFor(b => b.Blog.Content, new { @class = "form-control",@rows="30" })<br />
+                <button type="submit">Save</button>
+            </div>
+        }
+        <label style="color:red">@ViewBag.ErrMessage</label>
+    </div>

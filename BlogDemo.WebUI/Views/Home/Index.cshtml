@@ -1,0 +1,38 @@
+﻿@model BlogDemo.WebUI.Models.IndexViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <h3>WRITERS</h3>
+    <div class="row">
+        <table id="dataTable" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Operation</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td><a href="/Home/Detail/@item.Id">Detail</a></td>
+                    </tr>
+
+                }
+
+
+            </tbody>
+            <tfoot>
+                <tr></tr>
+            </tfoot>
+
+        </table>
+    </div>
+</div>

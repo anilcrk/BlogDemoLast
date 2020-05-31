@@ -1,0 +1,19 @@
+﻿@model BlogDemo.WebUI.Models.DetailViewModel
+@{
+    ViewBag.Title = "Detail";
+}
+
+<div class="container">
+    <div class="row">
+        <h3>@Model.User.FirstName @Model.User.LastName - Blogs</h3><hr />
+        <div class="col-xs-12">
+            @foreach (var item in Model.Blogs)
+            {
+                <h3>@item.Title</h3><hr />
+                <p>@Html.Raw(item.Content)</p>
+            }
+        </div>
+        <hr />
+    </div>
+</div>
+
