@@ -54,10 +54,14 @@ namespace DemoFramework.Core.DataAccess.EntityFramework
 
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
-            using (var context = new TContext())
+            List<TEntity> result= new List<TEntity>();
+            HandleException.ExceptionThrow(() => {
+                using (var context = new TContext())
             {
-                return filter == null ? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
+                    result=filter == null ? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
             }
+            });
+            return result;
         }
 
         public TEntity Update(TEntity entity)
