@@ -1,4 +1,5 @@
 ﻿using DemoFramework.Core.Entities;
+using DemoFramework.Core.ErrorManagement;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,31 +14,42 @@ namespace DemoFramework.Core.DataAccess.EntityFramework
     {
         public TEntity Add(TEntity entity)
         {
-            using (var context=new TContext())
+            TEntity result = new TEntity();
+            HandleException.ExceptionThrow(() => {
+                using (var context=new TContext())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
                 context.SaveChanges();
-                return entity;
+                    result = entity;
             }
+            });
+            return result;
         }
 
         public void Delete(TEntity entity)
         {
-            using (var context = new TContext())
+            HandleException.ExceptionThrow(() => {
+                using (var context = new TContext())
             {
                 var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
                 context.SaveChanges();
             }
+            });
         }
 
         public TEntity Get(Expression<Func<TEntity, bool>> filter = null)
         {
-            using (var context = new TContext())
-            {
-                return context.Set<TEntity>().SingleOrDefault(filter);
-            }
+            TEntity result=new TEntity();
+            HandleException.ExceptionThrow(() => {
+                using (var context = new TContext())
+                {
+                    result = context.Set<TEntity>().SingleOrDefault(filter);
+                }
+                
+            });
+            return result;
         }
 
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
@@ -50,13 +62,17 @@ namespace DemoFramework.Core.DataAccess.EntityFramework
 
         public TEntity Update(TEntity entity)
         {
-            using(var context=new TContext())
+            TEntity result = new TEntity();
+            HandleException.ExceptionThrow(() => {
+                using (var context=new TContext())
             {
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
-                return entity;
+                result = entity;
             }
+            });
+            return result;
         }
     }
 }
